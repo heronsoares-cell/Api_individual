@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+        Consulta de Beyblade
+    </h1>
+    <input type="text" id="nome" placeholder="Digite o nome do Beyblade">
+    <button on click="buscarBeyblade()">Buscar</button>
+    <p id="aviso"></p>
+
+    <div id="resultado"></div>
+    <script>
+        async function buscarBeyblade(){
+            const nome = document.getElementById("nome").value.trim().toLowerCase();
+            const aviso= document.getElementById("aviso");
+            const resultado= document.getElementById("resultado");
+
+            const resposta = await fetch('https://Beyblade-api.con/api/v1/Beyblade' + nome);
+            if(!resposta.ok){
+                aviso.textContent = "Beyblade nao encontrado.";
+                return;
+            }
+            aviso.textContent = "";
+
+            const beyblade = await resposta.json();
+
+            resultado.innerHTML = ` 
+            <h2>${beyblade.name}</h2>
+            <p>Tipo:${beyblade.types[0].type}</p>
+
+            <img src="${beyblade.images[0].href}" width="200">
+
+            <p>Descrição: ${beyblade.descritions[1].descritions}</p>
+`
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+/* ============================================================
+   Consulta de Beyblade — folha de estilos
+   Mesma identidade da arena: fundo escuro, laranja "faísca"
+   como cor de ação, ciano "carga" como acento de dado.
+   ============================================================ */
+
+:root {
+  --bg:     #14171C;
+  --panel:  #1B1F26;
+  --border: #2A2F38;
+  --steel:  #8B93A1;
+  --paper:  #EDEFF2;
+  --spark:  #FF5A1F;
+  --charge: #2DE1C2;
+
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-body: "Inter", -apple-system, sans-serif;
+
+  --radius: 6px;
+}
+
+*{ box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--paper);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  padding: 4rem 1.5rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--spark);
+  outline-offset: 3px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  letter-spacing: -0.01em;
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  text-align: center;
+}
+
+/* ---------- Barra de busca ---------- */
+
+#nome {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0.85rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+#nome::placeholder { color: var(--steel); }
+
+#nome:focus {
+  border-color: var(--spark);
+  outline: none;
+}
+
+button {
+  display: block;
+  margin: 0.9rem auto 0;
+  padding: 0.75rem 1.8rem;
+  background: var(--spark);
+  color: #14171C;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button:hover { background: #ff7443; }
+button:active { background: #e04d15; }
+
+/* ---------- Aviso ---------- */
+
+#aviso {
+  max-width: 420px;
+  margin: 0.9rem auto 0;
+  text-align: center;
+  color: var(--spark);
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+/* ---------- Resultado ---------- */
+
+#resultado {
+  max-width: 480px;
+  margin: 2.5rem auto 0;
+}
+
+#resultado:empty { display: none; }
+
+#resultado h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem;
+  border-bottom: 2px solid var(--charge);
+  padding-bottom: 0.5rem;
+}
+
+#resultado p {
+  color: var(--steel);
+  font-size: 0.95rem;
+  margin: 0.4rem 0;
+}
+
+#resultado p:first-of-type {
+  display: inline-block;
+  color: var(--charge);
+  background: rgba(45, 225, 194, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+#resultado ul {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+#resultado li {
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.92rem;
+  color: var(--paper);
+}
+
+#resultado li:first-child { border-top: none; }
+
+#resultado img {
+  display: block;
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  margin: 1.1rem 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+#resultado img {
+  display: block;
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 480px) {
+  body { padding: 2.5rem 1.25rem; }
+}

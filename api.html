@@ -1,42 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Consulta de Star Wars</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="akabab/starwars-api" rel="stylesheet">
+    <link rel="stylesheet" href="api.css">
 </head>
 <body>
-    <h1>
-        Consulta de Beyblade
-    </h1>
-    <input type="text" id="nome" placeholder="Digite o nome do Beyblade">
-    <button on click="buscarBeyblade()">Buscar</button>
+    <h1>Consulta de Star Wars</h1>
+    <input type="text" id="nome" placeholder="Digite o nome do personagem">
+    <button onclick="buscarPersonagem()">Buscar</button>
     <p id="aviso"></p>
 
     <div id="resultado"></div>
-    <script>
-        async function buscarBeyblade(){
-            const nome = document.getElementById("nome").value.trim().toLowerCase();
-            const aviso= document.getElementById("aviso");
-            const resultado= document.getElementById("resultado");
-
-            const resposta = await fetch('https://Beyblade-api.con/api/v1/Beyblade' + nome);
-            if(!resposta.ok){
-                aviso.textContent = "Beyblade nao encontrado.";
+  <script>
+        async function buscarPersonagem(){
+            const nome = document.getElementById("nome").value.trim();
+            const aviso = document.getElementById("aviso");
+            const resultado = document.getElementById("resultado");
+ 
+            if (!nome) {
+                aviso.textContent = "Digite um nome pra buscar.";
+                resultado.innerHTML = "";
                 return;
             }
-            aviso.textContent = "";
-
-            const beyblade = await resposta.json();
-
-            resultado.innerHTML = ` 
-            <h2>${beyblade.name}</h2>
-            <p>Tipo:${beyblade.types[0].type}</p>
-
-            <img src="${beyblade.images[0].href}" width="200">
-
-            <p>Descrição: ${beyblade.descritions[1].descritions}</p>
-`
+ 
+            aviso.textContent = "Buscando...";
+            resultado.innerHTML = "";
+ 
+            try {
+                // Essa API traz imagem, mas nao tem busca por nome:
+                // entao pegamos a lista inteira e filtramos aqui.
+                const resposta = await fetch('https://akabab.github.io/starwars-api/api/all.json');
+ 
+                if (!resposta.ok) {
+                    aviso.textContent = "Erro ao consultar a API.";
+                    return;
+                }
+ 
+                const todos = await resposta.json();
+                const personagem = todos.find(p => p.name.toLowerCase().includes(nome.toLowerCase()));
+ 
+                if (!personagem) {
+                    aviso.textContent = "Personagem nao encontrado.";
+                    return;
+                }
+ 
+                aviso.textContent = "";
+ 
+                resultado.innerHTML = `
+                <div>
+                    <img src="${personagem.image}" alt="${personagem.name}">
+                    <h2>${personagem.name}</h2>
+                    <p>${personagem.gender || "-"}</p>
+                    <ul>
+                        <li>Altura: ${personagem.height ? personagem.height + " m" : "-"}</li>
+                        <li>Peso: ${personagem.mass ? personagem.mass + " kg" : "-"}</li>
+                        <li>Planeta natal: ${personagem.homeworld || "-"}</li>
+                        <li>Especie: ${personagem.species || "-"}</li>
+                        <li>Cor dos olhos: ${personagem.eyeColor || "-"}</li>
+                    </ul>
+                </div>
+                `;
+            } catch (erro) {
+                aviso.textContent = "Erro ao buscar. Tente novamente.";
+            }
         }
     </script>
 </body>
